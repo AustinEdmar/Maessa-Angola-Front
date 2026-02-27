@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maessa Limitada</title>
+  <link href="./output.css" rel="stylesheet">
+   <link rel="icon" href="./images/favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body class="font-mont bg-white overflow-x-hidden">
+
+<!-- ══════════════════════════════════════════════
+     NAVBAR — fixed, transparent → white on scroll
+══════════════════════════════════════════════ -->
+<header id="navbar" class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+  <div class="max-w-7xl mx-auto px-6 h-[70px] flex items-center justify-between relative">
+
+    <!-- Logo -->
+    <a href="./index.html" class="flex items-center gap-1.5 shrink-0 no-underline w-28 h-28">
+      <!-- Wave mark -->
+      <img src="./assets/image/logo.png" alt="Maessa Logo" class="w-28 h-auto">
+    </a>
+
+    <!-- Desktop nav links -->
+    <nav id="desktop-nav" class="hidden md:flex items-center gap-8">
+       <a href="#" class="nav-item text-[13px] font-bold uppercase tracking-wider text-navy border-b-2 border-gold pb-0.5 hover:text-gold transition-colors">Sobre Nos</a>
+      <div class="relative group">
+
+  <!-- Botão principal -->
+  <button class="flex items-center nav-item gap-1 text-[13px] font-bold uppercase tracking-wider text-navy hover:text-gold transition-colors">
+    
+    Agenciamento de Navios
+    
+    <!-- Ícone down -->
+    <svg class="w-4 h-4 mt-[1px] transition-transform duration-300 group-hover:rotate-180"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/>
+    </svg>
+  </button>
+
+  <!-- Dropdown -->
+  <div class="absolute left-0 mt-3 w-56 bg-white rounded-lg shadow-xl 
+              opacity-0 invisible 
+              group-hover:opacity-100 group-hover:visible 
+              transition-all duration-300">
+
+    <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100">
+      Entrada de Navios
+    </a>
+
+    <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100">
+      Saída de Navios
+    </a>
+
+    <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100">
+      Logística Portuária
+    </a>
+
+  </div>
+
+</div>
+      <div class="relative group">
+
+  <!-- Botão principal -->
+  <button class="flex items-center nav-item gap-1 text-[13px] font-bold uppercase tracking-wider text-navy hover:text-gold transition-colors">
+    
+    Serviços ao Armador
+    
+    <!-- Ícone down -->
+    <svg class="w-4 h-4 mt-[1px] transition-transform duration-300 group-hover:rotate-180"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/>
+    </svg>
+  </button>
+
+  <!-- Dropdown -->
+  <div class="absolute left-0 mt-3 w-56 bg-white rounded-lg shadow-xl 
+              opacity-0 invisible 
+              group-hover:opacity-100 group-hover:visible 
+              transition-all duration-300">
+
+    <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100">
+      Entrada de Navios
+    </a>
+
+    <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100">
+      Saída de Navios
+    </a>
+
+    <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100">
+      Logística Portuária
+    </a>
+
+  </div>
+
+</div>
+      <div class="relative group">
+
+  <!-- Botão principal -->
+  <button class="flex items-center nav-item gap-1 text-[13px] font-bold uppercase tracking-wider text-navy hover:text-gold transition-colors">
+    
+    Certificações
+    
+    <!-- Ícone down -->
+    <svg class="w-4 h-4 mt-[1px] transition-transform duration-300 group-hover:rotate-180"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/>
+    </svg>
+  </button>
+
+  <!-- Dropdown -->
+  <div class="absolute left-0 mt-3 w-56 bg-white rounded-lg shadow-xl 
+              opacity-0 invisible 
+              group-hover:opacity-100 group-hover:visible 
+              transition-all duration-300">
+
+    <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100">
+      Entrada de Navios
+    </a>
+
+    <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100">
+      Saída de Navios
+    </a>
+
+    <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100">
+      Logística Portuária
+    </a>
+
+  </div>
+
+</div>
+      <a href="#" class="nav-item text-[13px] font-bold uppercase tracking-wider text-navy hover:text-gold transition-colors">Contactos</a>
+    </nav>
+
+    <!-- Social + hamburger -->
+    <div class="flex items-center gap-4">
+      <div id="desktop-soc" class="hidden md:flex items-center gap-4">
+        <a href="#" id="soc1" class="soc-link text-navy hover:text-gold transition-colors">
+          <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="#" id="soc2" class="soc-link text-navy hover:text-gold transition-colors">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+      </div>
+      <!-- Hamburger -->
+      <button onclick="toggleMenu()" class="md:hidden text-white" id="ham-icon">
+        <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mob-menu" class="hidden md:hidden absolute top-[70px] left-0 right-0 bg-navy/95 backdrop-blur-sm flex-col gap-4 px-6 py-6 z-50">
+      <a href="#" class="nav-item text-[13px] font-bold uppercase tracking-wider text-white border-b-2 border-gold pb-0.5 hover:text-gold transition-colors">Sobre Nos</a>
+      <a href="#" class="nav-item text-[13px] font-bold uppercase tracking-wider text-white hover:text-gold transition-colors">
+        Agenciamento de Navios
+        
+      </a>
+      <a href="#" class="nav-item text-[13px] font-bold uppercase tracking-wider text-white hover:text-gold transition-colors">Serviços ao Armador</a>
+      <a href="#" class="nav-item text-[13px] font-bold uppercase tracking-wider text-white hover:text-gold transition-colors">Certificações</a>
+      <a href="#" class="nav-item text-[13px] font-bold uppercase tracking-wider text-white hover:text-gold transition-colors">Contactos</a>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════
+     HERO — 100vh, bg image, transparent overlay
+══════════════════════════════════════════════ -->
+<section id="hero" class="relative w-full h-screen min-h-[560px] flex items-center overflow-hidden">
+
+  <!--  -->
+  <!-- Background image -->
+   <!-- Video background -->
+ 
+
+
+
+  <!-- Scroll indicator — right side -->
+
+</section>
+
+<!-- ══════════════════════════════════════════════
+     PARCEIROS
+══════════════════════════════════════════════ -->
+
+
+<!-- ══════════════════════════════════════════════
+     SUPORTE CTA
+══════════════════════════════════════════════ -->
+<section id="cta-sec" class="relative bg-cta overflow-hidden 
+  py-16 sm:py-20 md:py-28 px-6">
+
+  <!-- Background -->
+  <div 
+  class="absolute inset-0 pointer-events-none bg-cover bg-center"
+  style="background-image: url('./assets/image/bgsuporte.png');">
+</div>
+
+  <!-- Glow orbs responsivos -->
+  <div class="absolute -left-40 -top-40 
+    w-[300px] sm:w-[400px] md:w-[500px] 
+    h-[300px] sm:h-[400px] md:h-[500px] 
+    rounded-full bg-white/[0.03] pointer-events-none">
+  </div>
+
+  <div class="absolute -right-20 -bottom-40 
+    w-[250px] sm:w-[350px] md:w-[420px] 
+    h-[250px] sm:h-[350px] md:h-[420px] 
+    rounded-full bg-white/[0.04] pointer-events-none">
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 
+    max-w-6xl mx-auto 
+    flex flex-col md:flex-row 
+    items-center justify-between 
+    gap-10 md:gap-16">
+
+    <!-- Left -->
+    <div id="cta-l" class="text-center md:text-left">
+      <h2 class="text-white font-extrabold 
+        text-[clamp(2rem,6vw,4rem)] 
+        leading-[1.1]">
+        Precisa de <br class="hidden sm:block"> suporte ?
+      </h2>
+    </div>
+
+    <!-- Right -->
+    <div id="cta-r" 
+      class="flex flex-col gap-6 
+      max-w-lg w-full 
+      items-center md:items-start 
+      text-center md:text-left">
+
+      <p class="text-white/85 
+        text-[clamp(1rem,2.5vw,1.1rem)] 
+        leading-relaxed font-medium">
+        Pensando em si, criámos a nossa linha de apoio para melhor o servir
+      </p>
+
+      <a href="#"
+        class="inline-flex items-center gap-4 
+        bg-gold text-black font-extrabold 
+        text-[clamp(0.95rem,2.5vw,1.1rem)] 
+        px-7 sm:px-9 py-4 sm:py-5 
+        rounded-2xl 
+        hover:opacity-90 hover:-translate-y-0.5 
+        transition-all duration-200 
+        active:scale-95">
+
+        Contacte – nos
+
+        <span class="w-8 h-8 sm:w-9 sm:h-9 
+          bg-white/30 rounded-full 
+          flex items-center justify-center shrink-0">
+
+          <svg class="w-4 h-4 sm:w-5 sm:h-5"
+            fill="none" stroke="white" stroke-width="2.5"
+            viewBox="0 0 24 24">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+
+        </span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════ -->
+<footer id="footer-sec" class="bg-white border-t border-gray-100 pt-8 pb-8 px-6">
+  <div class="max-w-5xl mx-auto flex flex-col items-center">
+
+    <!-- Top row -->
+    <div class="w-full flex flex-col items-center gap-8 md:grid md:grid-cols-3 md:items-center md:gap-10">
+
+      <!-- COLUNA 1 - BRAND (ESQUERDA) -->
+      <div class="flex flex-col items-center md:items-start text-center md:text-left">
+        <a href="#" class="flex items-center gap-2.5 mb-4">
+          <img src="./assets/image/logo-black.png" alt="Maessa Logo" class="w-32 md:w-36">
+        </a>
+        <p class="text-[13px] text-gray-400 leading-relaxed max-w-[260px]">
+          Larana randomised words which don't look even slightly thjffhj.
+        </p>
+      </div>
+
+      <!-- COLUNA 2 - LINKS (CENTRO) -->
+      <div class="flex flex-col items-center text-center">
+        <nav class="flex flex-col gap-2 md:gap-2">
+          <a href="#" class="text-[12.5px] font-bold uppercase tracking-widest text-gray-800 hover:text-brand transition-colors">
+            Sobre Nós
+          </a>
+          <a href="#" class="text-[12.5px] font-bold uppercase tracking-widest text-gray-800 hover:text-brand transition-colors">
+            Serviços
+          </a>
+          <a href="#" class="text-[12.5px] font-bold uppercase tracking-widest text-gray-800 hover:text-brand transition-colors">
+            Projectos
+          </a>
+          <a href="#" class="text-[12.5px] font-bold uppercase tracking-widest text-gray-800 hover:text-brand transition-colors">
+            Blogs
+          </a>
+          <a href="#" class="text-[12.5px] font-bold uppercase tracking-widest text-gray-800 hover:text-brand transition-colors">
+            Contactos
+          </a>
+        </nav>
+      </div>
+
+      <!-- COLUNA 3 - REDES SOCIAIS (DIREITA) -->
+      <div class="flex justify-center md:justify-end">
+        <div class="flex items-center gap-3 flex-wrap justify-center">
+          <a href="#" class="w-9 h-9 rounded-lg bg-navy flex items-center justify-center text-white hover:bg-brand transition">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+            </svg>
+          </a>
+
+          <a href="#" class="w-9 h-9 rounded-lg bg-navy flex items-center justify-center text-white hover:bg-sky-500 transition">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 12 8v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+            </svg>
+          </a>
+
+          <a href="#" class="w-9 h-9 rounded-lg bg-[#c2185b] flex items-center justify-center text-white hover:opacity-85 transition">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="2" y="2" width="20" height="20" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+            </svg>
+          </a>
+
+          <a href="#" class="w-9 h-9 rounded-lg bg-[#0077b5] flex items-center justify-center text-white hover:opacity-85 transition">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="mt-10 pt-5 border-t border-gray-100 flex flex-col items-center gap-2 text-center md:flex-row md:justify-between md:gap-3">
+      <span class="text-[13px] text-gray-400">© 2025 Maessa, Todos os Direitos Reservados</span>
+      <span class="text-[13px] text-gray-400">Feito por Maessa</span>
+    </div>
+
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════════ -->
+<script src="./js/script.js"></script>
+
+<!--  -->
+</body>
+</html>

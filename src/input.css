@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  /* Cores */
+  --color-brand: #3535d0;
+  --color-gold:  #F5C518;
+  --color-navy:  #1a1a6e;
+  --color-cta:   #3232C0;
+
+  /* Fonte */
+--font-mont: 'Nunito', sans-serif;
+
+  /* Font size hero */
+  --font-size-hero: clamp(3rem, 10vw, 8.5rem);
+  --line-height-hero: 0.93;
+  --letter-spacing-hero: -1px;
+
+  /* Animação pillDot */
+  --animate-pill-dot: pillDot 1.7s ease-in-out infinite;
+
+  @keyframes pillDot {
+    0%, 100% { top: 6px;  opacity: 1; }
+    75%       { top: 24px; opacity: 0; }
+  }
+}
