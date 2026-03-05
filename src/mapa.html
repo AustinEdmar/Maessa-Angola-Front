@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Angola Maritime System</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<style>
+body { margin:0; display:flex; height:100vh; font-family:Arial; }
+#map { flex:3; }
+#sidebar {
+    flex:1;
+    padding:20px;
+    background:#f5f5f5;
+    border-left:1px solid #ccc;
+    overflow-y:auto;
+}
+button {
+    padding:6px 10px;
+    margin-top:10px;
+    cursor:pointer;
+}
+h2 { margin-top:0; }
+</style>
+</head>
+<body>
+
+<div id="map"></div>
+<div id="sidebar">
+<h2>Portos de Angola</h2>
+<p>Sistema ativo...</p>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+// ================= CONFIG =================
+var shipSpeed = 35; 
+var seaOffsetKm = 10; 
+var manualView = false;
+
+// ================= MAPA =================
+var map = L.map('map').setView([-12.5,17],6);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+// ================= DISTÂNCIA REAL =================
+function distanceKm(a, b) {
+    var R = 6371;
+    var dLat = (b[0] - a[0]) * Math.PI / 180;
+    var dLon = (b[1] - a[1]) * Math.PI / 180;
+    var lat1 = a[0] * Math.PI / 180;
+    var lat2 = b[0] * Math.PI / 180;
+
+    var x = Math.sin(dLat/2)**2 +
+            Math.sin(dLon/2)**2 *
+            Math.cos(lat1) * Math.cos(lat2);
+
+    var c = 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1-x));
+    return R * c;
+}
+
+// ================= BEARING =================
+function calculateBearing(start, end) {
+    var lat1 = start[0] * Math.PI/180;
+    var lat2 = end[0] * Math.PI/180;
+    var dLon = (end[1] - start[1]) * Math.PI/180;
+
+    var y = Math.sin(dLon) * Math.cos(lat2);
+    var x = Math.cos(lat1)*Math.sin(lat2) -
+            Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
+
+    var brng = Math.atan2(y,x);
+    return (brng*180/Math.PI + 360) % 360;
+}
+
+// ================= MOVER PARA O MAR =================
+function moveToSea(coords, km) {
+    var lat = coords[0];
+    var lon = coords[1];
+    var kmPerDegree = 111 * Math.cos(lat * Math.PI / 180);
+    var delta = km / kmPerDegree;
+    return [lat, lon - delta];
+}
+
+// ================= PORTOS =================
+var ports = [
+{name:"Namibe",coords:[-15.195,12.152],info:"Porto estratégico.",address:"Namibe",images:["https://www.diarioeconomico.co.mz/wp-content/uploads/2022/04/porto-do-Namibe.jpeg"]},
+{name:"Lobito",coords:[-12.371,13.546],info:"Ligado ao CFB.",address:"Lobito",images:["https://portodolobito.co.ao/wp-content/uploads/2023/04/home1.jpg"]},
+{name:"Porto Amboim",coords:[-10.728,13.759],info:"Porto regional.",address:"Porto Amboim",images:["https://www.istoenoticia.info/wp-content/uploads/2023/07/Porto-Amboim-2-1.jpeg"]},
+{name:"Luanda",coords:[-8.806,13.234],info:"Principal porto comercial.",address:"Luanda",images:["https://www.vozdeangola.com/media/k2/items/cache/dd7f87b7b38af63ddefcdba4123668da_L.jpg","https://adfersit.pt/uploads/article/602/recesso1.jpg"]},
+{name:"Ambriz",coords:[-7.855,13.125],info:"Porto em expansão.",address:"Ambriz",images:["https://www.bansarchina.com/wp-content/uploads/2021/12/Port-of-Ambriz.jpg"]},
+{name:"Soyo",coords:[-6.134,12.368],info:"Porto petrolífero.",address:"Soyo",images:["https://www.giranoticias.com/_midias/jpg/2026/01/15/porto_soyo-407770.jpeg"]},
+{name:"Cabinda",coords:[-5.556,12.190],info:"Porto estratégico.",address:"Cabinda",images:["https://mercado.co.ao/wp-content/uploads/2025/02/norvia_1_porto_cabinda-1.jpg"]}
+];
+
+// ================= GALERIA =================
+function renderGallery(port) {
+
+    manualView = true;
+    let imgIndex = 0;
+
+    document.getElementById("sidebar").innerHTML = `
+        <h2>${port.name}</h2>
+        <p>${port.info}</p>
+        <p><strong>Endereço:</strong> ${port.address}</p>
+
+        <div style="position:relative;">
+            <img id="carouselImage" src="${port.images[0]}" style="width:100%;border-radius:6px;">
+            ${port.images.length > 1 ? `
+            <button id="prevBtn" style="position:absolute;left:10px;top:45%;">◀</button>
+            <button id="nextBtn" style="position:absolute;right:10px;top:45%;">▶</button>` : ""}
+        </div>
+
+        <p style="margin-top:8px;">
+            Imagem <span id="imgCounter">1</span> de ${port.images.length}
+        </p>
+
+        <button id="backBtn">Voltar</button>
+    `;
+
+    const img = document.getElementById("carouselImage");
+    const counter = document.getElementById("imgCounter");
+    const prev = document.getElementById("prevBtn");
+    const next = document.getElementById("nextBtn");
+    const back = document.getElementById("backBtn");
+
+    function updateImage() {
+        img.src = port.images[imgIndex];
+        counter.textContent = imgIndex + 1;
+    }
+
+    if(prev && next){
+        prev.addEventListener("click", ()=>{
+            imgIndex = (imgIndex - 1 + port.images.length) % port.images.length;
+            updateImage();
+        });
+
+        next.addEventListener("click", ()=>{
+            imgIndex = (imgIndex + 1) % port.images.length;
+            updateImage();
+        });
+    }
+
+    back.addEventListener("click", ()=> manualView = false);
+}
+
+// ================= MARCADORES =================
+ports.forEach(port=>{
+    var marker = L.marker(port.coords).addTo(map);
+    marker.bindTooltip(port.name);
+    marker.on("click", ()=>{
+        renderGallery(port);
+        map.flyTo(port.coords,9);
+    });
+});
+
+// ================= ROTA MARÍTIMA =================
+// ================= ROTA MARÍTIMA COSTEIRA FINAL =================
+var maritimeRoute = [];
+var routeSegments = [];
+
+for(let i=0;i<ports.length-1;i++){
+
+    let startSea = moveToSea(ports[i].coords, seaOffsetKm);
+    let endSea = moveToSea(ports[i+1].coords, seaOffsetKm);
+
+    let steps = 20; // mais pontos = curva mais suave
+
+    for(let s=0; s<=steps; s++){
+
+        let t = s/steps;
+
+        // interpolação normal
+        let lat = startSea[0] + (endSea[0] - startSea[0]) * t;
+        let lon = startSea[1] + (endSea[1] - startSea[1]) * t;
+
+        // CURVATURA REALISTA PARA O OCEANO
+        // quanto mais ao meio, mais desloca para oeste (mar)
+        let curveStrength = 0.35; 
+        lon -= curveStrength * Math.sin(Math.PI * t);
+
+        maritimeRoute.push([lat, lon]);
+    }
+
+    routeSegments.push({
+        from: ports[i],
+        to: ports[i+1]
+    });
+}
+
+L.polyline(maritimeRoute,{color:"blue"}).addTo(map);
+
+// ================= NAVIO =================
+/* var shipIcon = L.icon({
+    iconUrl:"https://cdn-icons-png.flaticon.com/128/870/870170.png",
+    iconSize:[40,40]
+});
+ */
+var ship = L.marker(maritimeRoute[0],{icon:shipIcon}).addTo(map);
+
+var index = 0;
+var progress = 0;
+var speed = 0.002;
+var paused = false;
+
+
+function interpolate(a,b,t){
+    return [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t];
+}
+
+/* function animate(){
+
+    if(paused){ requestAnimationFrame(animate); return; }
+
+    var start = maritimeRoute[index];
+    var end = maritimeRoute[index+1];
+
+    if(!end){ index = 0; progress = 0; requestAnimationFrame(animate); return; }
+
+    progress += speed;
+
+    if(progress >= 1){
+        ship.setLatLng(end);
+        paused = true;
+        setTimeout(()=>{ paused=false; progress=0; index++; },5000);
+    } else {
+
+        var pos = interpolate(start,end,progress);
+        ship.setLatLng(pos);
+
+        var bearing = calculateBearing(start,end);
+        var el = ship.getElement();
+        if(el) el.style.transform = `rotate(${bearing}deg)`;
+
+        var totalDistance = distanceKm(start,end);
+        var remainingDistance = totalDistance*(1-progress);
+        var totalTimeMin = ((totalDistance/shipSpeed)*60).toFixed(1);
+        var remainingTimeMin = ((remainingDistance/shipSpeed)*60).toFixed(1);
+
+        let segmentIndex = Math.floor(index/3);
+        let currentSegment = routeSegments[segmentIndex] || routeSegments[0];
+
+        if(!manualView){
+            document.getElementById("sidebar").innerHTML = `
+                <h2>🚢 Navegação Costeira</h2>
+                <p><strong>De:</strong> ${currentSegment.from.name}</p>
+                <p><strong>Para:</strong> ${currentSegment.to.name}</p>
+                <p><strong>Distância:</strong> ${totalDistance.toFixed(2)} km</p>
+                <p><strong>Tempo total:</strong> ${totalTimeMin} min</p>
+                <p><strong>ETA:</strong> ${remainingTimeMin} min</p>
+                <p><strong>Velocidade:</strong> ${shipSpeed} km/h</p>
+            `;
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+ */
+/* animate(); */
+
+</script>
+</body>
+</html>

@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@source "./**/*.html";
+
 @theme {
   /* Cores */
   --color-brand: #3535d0;
@@ -22,4 +24,7 @@
     0%, 100% { top: 6px;  opacity: 1; }
     75%       { top: 24px; opacity: 0; }
   }
+
+
+  
 }
